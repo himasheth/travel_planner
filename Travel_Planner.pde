@@ -1,3 +1,4 @@
+
 import de.fhpotsdam.unfolding.*;
 import de.fhpotsdam.unfolding.core.*;
 import de.fhpotsdam.unfolding.data.*;
@@ -14,10 +15,64 @@ import de.fhpotsdam.unfolding.ui.*;
 import de.fhpotsdam.unfolding.utils.*;
 import de.fhpotsdam.utils.*;
 
+import http.requests.*;
+//import org.json.*;
+
 UnfoldingMap map;
 
-void setup () {
-  exit();
+ArrayList<String> addresses = new ArrayList <String>();
+ArrayList<GetRequest> requests = new ArrayList<GetRequest>();
+
+void addToMap(String d) {
+  String[] nameArray = d.split(" ");
+  //printArray(nameArray);
+  String addressString = "";
+  for (int i = 0; i < nameArray.length; i++) {
+    addressString += nameArray[i];
+    if (nameArray.length != i+1)
+      addressString += "+";
+  }
+  addresses.add(addressString);
+  //println(addressString);
+}
+
+void addRequests() {
+  for (int i = 0; i < addresses.size(); i++) {
+    String link = "https://maps.googleapis.com/maps/api/geocode/json?address=" + addresses.get(i) + "tower&key=AIzaSyA2MYUfwXkH6E88_aQ0Eg8sba6V23_1Fdc";
+    GetRequest get = new GetRequest(link);
+    requests.add(get);
+  }
+}
+
+void getLatLong() {
+  for (int i = 0; i < requests.size(); i++) {
+    GetRequest currentAddress;
+    currentAddress = requests.get(i);
+    currentAddress.send();
+    JSONObject response = parseJSONObject(currentAddress.getContent());
+    JSONArray results = response.getJSONArray("results");
+    //println(response.get("geometry"));
+    JSONObject location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+    String lat = location.get("lat").toString();
+    String lng = location.get("lng").toString();
+  }
+}
+
+public void setup () {
+  //key = AIzaSyA2MYUfwXkH6E88_aQ0Eg8sba6V23_1Fdc
+  //GetRequest get = new GetRequest("https://maps.googleapis.com/maps/api/geocode/json?address=eiffel+tower&key=AIzaSyA2MYUfwXkH6E88_aQ0Eg8sba6V23_1Fdc");
+  //get.send(); // program will wait untill the request is completed
+  //JSONObject response = parseJSONObject(get.getContent());
+  //JSONArray results = response.getJSONArray("results");
+  ////println(response.get("geometry"));
+  //JSONObject location = results.getJSONObject(0).getJSONObject("geometry").getJSONObject("location");
+  //String lat = location.get("lat").toString();
+  //String lng = location.get("lng").toString();
+  //println("The latitude is", lat, "and the longitude is", lat);
+
+
+  //println("response: " + get.getContent());
+
   //Mapping code
   //size(800, 800);
   //map = new UnfoldingMap (this);
@@ -48,31 +103,35 @@ void setup () {
   marchBreak.addToItinerary(paris);
   marchBreak.addToItinerary(nice);
 
-  Traveller hima = new Traveller("Hima Sheth", 17);
-  Traveller nima = new Traveller ("Nima Sheth", 15);
-  Family sheth = new Family ("Sheth Family");
+  addToMap(endCountry.name);
+  //addToMap(paris.name);
+  addToMap("Eiffel Tower");
 
-  sheth.addToFamily(hima);
-  sheth.addToFamily(nima);
-  hima.addTrip(marchBreak);
+  //Traveller hima = new Traveller("Hima Sheth", 17);
+  //Traveller nima = new Traveller ("Nima Sheth", 15);
+  //Family sheth = new Family ("Sheth Family");
 
-  Destination alpsStart = new Destination("Canada, North America", 0);
-  Destination alpsEnd = new Destination("Switzerland, Europe", 0);
-  Trip alpsSki = new Trip (alpsStart, alpsEnd, "Winter");
-  alpsEnd.travelTo(alpsStart, 8, 2000);
+  //sheth.addToFamily(hima);
+  //sheth.addToFamily(nima);
+  //hima.addTrip(marchBreak);
 
-  Destination geneva = new Destination("Geneva, Switzerland", 3);
-  geneva.travelTo(alpsEnd, 7, 1000);
-  alpsSki.addToItinerary(geneva);
-  geneva.addTouristAttraction("The Mountains", 3);
+  //Destination alpsStart = new Destination("Canada, North America", 0);
+  //Destination alpsEnd = new Destination("Switzerland, Europe", 0);
+  //Trip alpsSki = new Trip (alpsStart, alpsEnd, "Winter");
+  //alpsEnd.travelTo(alpsStart, 8, 2000);
 
-  hima.addTrip(alpsSki);
-  nima.addTrip(marchBreak);
-  hima.printTravelPlans();
-  hima.chooseFavTrip(alpsSki);
-  nima.chooseFavTrip(marchBreak);
+  //Destination geneva = new Destination("Geneva, Switzerland", 3);
+  //geneva.travelTo(alpsEnd, 7, 1000);
+  //alpsSki.addToItinerary(geneva);
+  //geneva.addTouristAttraction("The Mountains", 3);
 
-  sheth.familyFavourites();
+  //hima.addTrip(alpsSki);
+  //nima.addTrip(marchBreak);
+  //hima.printTravelPlans();
+  //hima.chooseFavTrip(alpsSki);
+  //nima.chooseFavTrip(marchBreak);
+
+  //sheth.familyFavourites();
 }
 
 void draw() {
