@@ -16,6 +16,7 @@ class Traveller {
       this.trips.add(t);
   }
 
+//a quick way of knowing whether or not you took the trip
   boolean tookTrip(Trip t) {
     boolean a = false;
     for (int i = 0; i<trips.size(); i++) {
@@ -25,6 +26,7 @@ class Traveller {
     return a;
   }
 
+//allows you detemrine the travellers favourite trip
   void chooseFavTrip(Trip favTr) {
     if (favTr.endCountry.canAfford && tookTrip(favTr)) {
       this.favTrip = favTr;
@@ -34,6 +36,7 @@ class Traveller {
     println(favTr.to, "is a trip that has not been taken yet.");
   }
 
+//prints the travel plans for the traveller
   void printTravelPlans() {
     for (int i = 0; i < this.trips.size(); i ++) {
       this.trips.get(i).printItinerary();

@@ -13,12 +13,14 @@ class Family {
     this.favourites = new ArrayList<String>();
   }
 
+//adds travellers to the family
   void addToFamily(Traveller t) {
     fam.add(t);
     family.add(t.name);
     println("The current members in this family are", family);
   }
 
+//prints each family members favourite trips
   void familyFavourites() {
     for (int i = 0; i<this.fam.size(); i++) {
       if (this.fam.get(i).favTrip != null && this.fam.get(i).favTrip.endCountry.canAfford)

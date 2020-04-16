@@ -20,6 +20,7 @@ class Destination {
     this.today = 1;
   }
 
+//uses a random probability to determine if there's going to be good weather at the time that you go to this location
   void willRain() {
     float chance = random(0, 10);
     if (chance <= 2) {
@@ -31,6 +32,7 @@ class Destination {
     }
   }
 
+//this adds Tourist attractionst that you visit at the destinations
   void addTouristAttraction (String place, int h) {
     this.hoursTravelling += h;
     String[] attraction = {place, str(h)};

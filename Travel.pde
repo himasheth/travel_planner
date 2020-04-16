@@ -18,6 +18,7 @@ class Travel {
     determineMode();
   }
 
+//uses a random probabilty to determine if there's a train or not
   void isTrain() {
     float chance = random(0, 10);
     if (this.start.days != 0) {
@@ -34,6 +35,7 @@ class Travel {
     }
   }
 
+//uses the duration of the trip to determine the mode of transportation for the trip
   void determineMode() {
     isTrain();
     if (this.duration >= 6) {
@@ -67,9 +69,10 @@ class Travel {
     return z/pow(10, d);
   }
 
+//uses random probability to determine if you can afford the plane ticket or not
   boolean planeTicketPrice() {
     if (this.duration <= 10) {
-      float rand = random(0, this.budget*2);
+      float rand = random(0, this.budget*(5/3));
       rand = roundAny(rand, 2);
       if (rand < this.budget) {
         println("Tickets for a flight from", this.start.name, "to", this.end.name, "are", rand, "dollars! They are in your budget.");
@@ -78,7 +81,7 @@ class Travel {
       } else
         return false;
     } else if (this.duration > 10) {
-      float rand = random (0, this.budget*(3));
+      float rand = random (0, this.budget*(7/3));
       rand = roundAny(rand, 2);
       if (rand < this.budget) {
         println("Tickets for a flight from", this.start.name, "to", this.end.name, "are", rand, "dollars! They are in your budget.");

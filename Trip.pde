@@ -30,6 +30,7 @@ class Trip {
     end = this.to.split(",");
   }
 
+//updates the day each time the person is tired of travelling
   void updateDay() {
     if (this.itinerary.get(this.currentDay).tired == true) {
       this.currentDay += 1;
@@ -37,6 +38,7 @@ class Trip {
     }
   }
 
+//adds the destination to your itinerary
   void addToItinerary(Destination newDest) {
     if (newDest.travel.mode != null && endCountry.canAfford) {
       this.itineraryOfPlaces.add(newDest.name);
@@ -51,6 +53,7 @@ class Trip {
   }
 
 
+//prints the itinerary for the trip
   void printItinerary() {
     int flightNum = int(random(500, 10000));
     println();
